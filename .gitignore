@@ -1,0 +1,28 @@
+# General
+.DS_Store
+node_modules
+.env
+*.env.local
+*.log
+*.pyc
+__pycache__/
+
+# React specific
+/build
+/dist
+
+# Django specific
+*.sqlite3
+*.pyc
+*.pyo
+*.pyc
+*.pyo
+__pycache__
+*.egg-info
+*.egg
+venv/
+.env
+
+# IDE specific
+.idea
+.vscode
