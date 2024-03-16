@@ -7,6 +7,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
+from .serializers import EventSerializer
 
 from events.models import Event
 
@@ -58,6 +59,6 @@ class GetFollowingEventsView(APIView):
         following_usernames = [follow.followed.username for follow in following_users]
 
         following_events = Event.objects.filter(creator__username__in=following_usernames)
+        serializer = EventSerializer(following_events, many=True) 
 
-
-        return Response({'following_events': following_events}, status=status.HTTP_200_OK)
+        return Response({'following_events': serializer.data}, status=status.HTTP_200_OK)
