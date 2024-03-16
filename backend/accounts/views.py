@@ -28,7 +28,7 @@ class CheckAuthenticatedView(APIView):
             return Response({ 'error': 'Something went wrong when checking authentication status' }, status=400)
 
 
-@method_decorator(csrf_protect, name='dispatch')
+@method_decorator(csrf_exempt, name='dispatch')
 class SignupView(APIView):
     permission_classes = (permissions.AllowAny, )
 
@@ -57,7 +57,7 @@ class SignupView(APIView):
                 return Response({ 'error': 'Something went wrong when registering account' }, status=400)
 
 
-@method_decorator(csrf_protect, name='dispatch')
+@method_decorator(csrf_exempt, name='dispatch')
 class LoginView(APIView):
 
     permission_classes = (permissions.AllowAny, )
