@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 
+from corsheaders.defaults import default_headers
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -56,6 +58,48 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+CORS_ALLOW_CREDENTIALS = True
+
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:3000',
+    'http://127.0.0.1:3000',
+    'http://127.0.0.1:8000',
+    'https://960f-91-231-100-20.ngrok-free.app',
+    'http://192.168.X.X',
+]
+
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3000',
+    'http://127.0.0.1:3000',
+    'https://960f-91-231-100-20.ngrok-free.app',
+    'http://localhost:3000',
+    'http://127.0.0.1:8000',
+    'https://960f-91-231-100-20.ngrok-free.app',
+    'http://192.168.X.X',
+
+]
+
+
+CSRF_COOKIE_SAMESITE = 'None'
+CSRF_COOKIE_SECURE = True
+CSRF_COOKIE_HTTPONLY = False
+SESSION_COOKIE_SECURE = True
+
+CORS_ALLOW_HEADERS = (
+    *default_headers,
+    "sessionid",
+)
+
+CORS_ALLOWED_ORIGIN_REGEXES = [
+
+    r'^http://127.0.0.1:3000$', 
+    r'^http://localhost:3000$',
+    r'^https://960f-91-231-100-20.ngrok-free.app$',
+    r'^http://192.168.X.X$' 
+    
+]
+
 
 ROOT_URLCONF = "backend.urls"
 
