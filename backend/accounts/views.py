@@ -10,7 +10,7 @@ from django.utils.decorators import method_decorator
 from rest_framework.permissions import AllowAny
 from django.core.files.storage import default_storage
 from rest_framework import status
-
+from django.views.decorators.csrf import csrf_exempt
 
 
 class CheckAuthenticatedView(APIView):
@@ -27,6 +27,8 @@ class CheckAuthenticatedView(APIView):
         except:
             return Response({ 'error': 'Something went wrong when checking authentication status' }, status=400)
 
+
+@method_decorator(csrf_protect, name='dispatch')
 class SignupView(APIView):
     permission_classes = (permissions.AllowAny, )
 
@@ -54,6 +56,8 @@ class SignupView(APIView):
         except:
                 return Response({ 'error': 'Something went wrong when registering account' }, status=400)
 
+
+@method_decorator(csrf_protect, name='dispatch')
 class LoginView(APIView):
 
     permission_classes = (permissions.AllowAny, )
@@ -100,6 +104,17 @@ class DeleteAccountView(APIView):
         except:
             return Response({ 'error': 'Something went wrong when trying to delete user' })
         
+
+
+@method_decorator(ensure_csrf_cookie, name='dispatch')
+class GetCSRFToken(APIView):
+    permission_classes = (permissions.AllowAny, )
+
+    def get(self, request, format=None):
+        return Response({ 'success': 'CSRF cookie set' })
+        
+
+@method_decorator(csrf_exempt, name='dispatch')
 class SetPhotoAccountView(APIView):
     permission_classes = [permissions.IsAuthenticated]
     
