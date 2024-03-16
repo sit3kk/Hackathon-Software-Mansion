@@ -2,6 +2,12 @@ from django.shortcuts import render
 from .models import Event, Participant
 from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.permissions import AllowAny
+from django.utils.timezone import localtime
+
 
 class CreateEventView(APIView):
     permission_classes = [IsAuthenticated]
@@ -73,6 +79,17 @@ class GetAllEventsView(APIView):
             } for event in events
         ]
         return Response(events_data, status=status.HTTP_200_OK)
+    
+class LeaveEventView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, event_id):
+        user = request.user
+        event = get_object_or_404(Event, id=event_id)
+        participant = get_object_or_404(Participant, event=event, user=user)
+        participant.delete()
+        return Response({'success': f'Left the event {event.name} successfully'}, status=status.HTTP_204_NO_CONTENT)
+
 
 class GetEventDetailsView(APIView):
     permission_classes = [AllowAny]
