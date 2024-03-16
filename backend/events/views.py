@@ -15,20 +15,22 @@ class CreateEventView(APIView):
     def post(self, request):
         data = request.data
         user = request.user
+     
         try:
+           
             event = Event.objects.create(
                 name=data['name'],
                 description=data['description'],
                 start_time=data['start_time'],
                 end_time=data['end_time'],
                 creator=user,
-                place=data.get('place', ''),  # Optional fields should use .get()
-                photo=data.get('photo', None),  # Assuming you're handling file uploads correctly
-                participantsCount=data.get('participantsCount', 0),
+                place = data.get('place', None),
+                photo = data.get('photo', None),  
                 participantsMax=data.get('participantsMax', 0),
                 latitude=data['latitude'],
                 longitude=data['longitude']
             )
+            
             return Response({'success': 'Event created successfully', 'event_id': event.id}, status=status.HTTP_201_CREATED)
         except Exception as e:
             return Response({'error': 'Failed to create event'}, status=status.HTTP_400_BAD_REQUEST)
